@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SetuAI — The Intelligence Layer for India's 9.5 Million Chemists</title>
+  <style>
+    :root {
+      --teal: #0D7377;
+      --teal-light: #14A085;
+      --gold: #E8B84B;
+      --dark: #0a1628;
+      --dark2: #111c35;
+      --card: #162040;
+      --text: #e8edf5;
+      --muted: #8a9ab5;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,22,40,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(13,115,119,0.3);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+    }
+    .nav-logo { font-size: 1.4rem; font-weight: 800; color: var(--teal-light); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--gold); }
+    .nav-cta {
+      background: var(--teal); color: white; border: none;
+      padding: 0.5rem 1.25rem; border-radius: 6px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+    }
+
+    /* SECTIONS */
+    section { padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding-top: 7rem; padding-bottom: 3rem;
+      max-width: none; margin: 0; padding-left: 10%; padding-right: 10%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(13,115,119,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(232,184,75,0.05) 0%, transparent 50%);
+    }
+    .hero-badge {
+      display: inline-block; background: rgba(13,115,119,0.2);
+      border: 1px solid rgba(13,115,119,0.5); color: var(--teal-light);
+      padding: 0.35rem 1rem; border-radius: 20px; font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1;
+      margin-bottom: 1.5rem; max-width: 750px;
+    }
+    .hero h1 .accent { color: var(--teal-light); }
+    .hero h1 .gold { color: var(--gold); }
+    .hero p {
+      font-size: 1.2rem; color: var(--muted); max-width: 600px;
+      margin-bottom: 2.5rem; line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+    .btn-primary {
+      background: var(--teal); color: white; padding: 0.9rem 2rem;
+      border-radius: 8px; font-size: 1rem; font-weight: 700;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--teal-light); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid rgba(255,255,255,0.2); padding: 0.9rem 2rem;
+      border-radius: 8px; font-size: 1rem; font-weight: 600;
+      text-decoration: none; cursor: pointer; transition: border-color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal-light); }
+
+    .hero-stats { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .stat { }
+    .stat .num { font-size: 2rem; font-weight: 800; color: var(--teal-light); }
+    .stat .num span { color: var(--gold); }
+    .stat .label { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* SECTION HEADERS */
+    .section-tag {
+      font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--teal-light); font-weight: 700; margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800;
+      line-height: 1.2; margin-bottom: 1rem;
+    }
+    h2 .accent { color: var(--teal-light); }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 650px; margin-bottom: 3rem; }
+
+    /* PROBLEM */
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .problem-card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 1.75rem; transition: border-color 0.2s;
+    }
+    .problem-card:hover { border-color: rgba(13,115,119,0.4); }
+    .problem-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .problem-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .problem-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+    .problem-stat { color: var(--gold); font-weight: 700; margin-top: 0.75rem; font-size: 0.95rem; }
+
+    /* SOLUTION */
+    .solution-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .solution-card {
+      background: linear-gradient(135deg, rgba(13,115,119,0.1) 0%, rgba(13,115,119,0.03) 100%);
+      border: 1px solid rgba(13,115,119,0.25); border-radius: 12px; padding: 1.75rem;
+    }
+    .solution-card .icon-wrap {
+      width: 48px; height: 48px; background: rgba(13,115,119,0.2);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1rem;
+    }
+    .solution-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--teal-light); }
+    .solution-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+
+    /* HOW IT WORKS */
+    .steps { display: flex; flex-direction: column; gap: 0; max-width: 700px; }
+    .step { display: flex; gap: 1.5rem; padding: 1.5rem 0; border-left: 2px solid rgba(13,115,119,0.3); padding-left: 2rem; position: relative; }
+    .step:first-child { border-radius: 0; }
+    .step-num {
+      position: absolute; left: -15px; top: 1.5rem;
+      width: 28px; height: 28px; background: var(--teal); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+    }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .step p { color: var(--muted); font-size: 0.88rem; }
+
+    /* MARKET */
+    .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+    .market-card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 1.75rem; text-align: center;
+    }
+    .market-card .num { font-size: 2.2rem; font-weight: 900; color: var(--gold); }
+    .market-card .unit { font-size: 0.9rem; color: var(--teal-light); font-weight: 600; }
+    .market-card .desc { color: var(--muted); font-size: 0.82rem; margin-top: 0.5rem; }
+
+    /* TRACTION */
+    .traction-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .traction-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .traction-bullet { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); margin-top: 0.5rem; flex-shrink: 0; }
+    .traction-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .traction-item p { color: var(--muted); font-size: 0.85rem; }
+
+    /* BUSINESS MODEL */
+    .biz-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .biz-table th { background: rgba(13,115,119,0.2); padding: 0.75rem 1rem; text-align: left; font-size: 0.85rem; color: var(--teal-light); }
+    .biz-table td { padding: 0.85rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.88rem; color: var(--muted); }
+    .biz-table tr:last-child td { border-bottom: none; }
+    .biz-table td:first-child { color: var(--text); font-weight: 600; }
+
+    /* TEAM */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+    .team-card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 1.75rem;
+    }
+    .team-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;
+    }
+    .team-card h3 { font-size: 0.95rem; font-weight: 700; }
+    .team-card .role { color: var(--teal-light); font-size: 0.82rem; margin-bottom: 0.5rem; font-weight: 600; }
+    .team-card p { color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(13,115,119,0.15), rgba(13,115,119,0.05));
+      border: 1px solid rgba(13,115,119,0.3); border-radius: 20px;
+      padding: 4rem; text-align: center; max-width: 800px; margin: 0 auto;
+    }
+    .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+    .cta-section p { color: var(--muted); margin-bottom: 2rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem;
+      color: var(--muted); font-size: 0.82rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* DIVIDERS */
+    .divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 0; }
+
+    /* TAG PILL */
+    .tag {
+      display: inline-block; background: rgba(232,184,75,0.12);
+      border: 1px solid rgba(232,184,75,0.3); color: var(--gold);
+      padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Setu<span>AI</span></div>
+  <a href="#contact" class="nav-cta">Request Demo</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Seed Round · Healthcare AI · India</div>
+  <h1>The <span class="accent">Intelligence Layer</span> for India's <span class="gold">9.5 Million</span> Independent Chemists</h1>
+  <p>SetuAI gives neighbourhood pharmacies the clinical decision support, predictive inventory, and tele-consultation infrastructure that only hospital chains had — until now.</p>
+  <div class="hero-ctas">
+    <a href="#solution" class="btn-primary">See How It Works</a>
+    <a href="#market" class="btn-outline">View Deck</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="num">₹<span>31K</span></div>
+      <div class="label">Avg. margin recovered/chemist<br>in first 6 weeks (Bhopal pilot)</div>
+    </div>
+    <div class="stat">
+      <div class="num"><span>25%</span></div>
+      <div class="label">Reduction in expired stock<br>after AI inventory activation</div>
+    </div>
+    <div class="stat">
+      <div class="num"><span>60s</span></div>
+      <div class="label">Average tele-consult<br>connection time</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-tag">The Problem</div>
+  <h2>India's First Line of <span class="accent">Healthcare Defense</span> is Flying Blind</h2>
+  <p class="section-sub">For 80% of Indians, the neighbourhood chemist is their first — and often only — point of clinical contact. Yet they operate with zero intelligence infrastructure.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">💊</div>
+      <h3>Dead Stock Crisis</h3>
+      <p>Independent chemists carry 30–40% more inventory than needed due to poor demand forecasting, tying up working capital in medicines that expire unsold.</p>
+      <div class="problem-stat">₹40,000+ lost per chemist per month</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">⚠️</div>
+      <h3>Unsafe Dispensing</h3>
+      <p>With no clinical decision support, dangerous drug-drug interactions are missed. A tired pharmacist serving 100+ patients/day cannot catch every contraindication from memory.</p>
+      <div class="problem-stat">~3M adverse drug events/year in India</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📱</div>
+      <h3>The Digital Gap</h3>
+      <p>While e-pharmacy giants and hospital chains deploy AI and data science teams, independent chemists are still managing prescriptions on paper and billing on basic POS systems.</p>
+      <div class="problem-stat">95% have no AI/analytics tools</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🏥</div>
+      <h3>No Tele-Consult Bridge</h3>
+      <p>Walk-in patients with unclear symptoms get guessed-at OTC recommendations. There is no structured pathway to connect them to a doctor from the pharmacy floor.</p>
+      <div class="problem-stat">60% of pharmacy visits lack a valid Rx</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="section-tag">The Solution</div>
+  <h2>SetuAI 3.0 — The <span class="accent">Accountable Chemist</span> Platform</h2>
+  <p class="section-sub">A federated intelligence layer — privacy-first, SLM-powered, ABDM-compliant — that transforms the independent pharmacy into India's most trusted primary care access point.</p>
+  <div class="solution-grid">
+    <div class="solution-card">
+      <div class="icon-wrap">🧠</div>
+      <h3>Clinical Decision Support</h3>
+      <p>Real-time drug interaction flags, dosage alerts, and symptom-to-condition inference at the point of dispensing. The chemist becomes a safe co-prescriber, not a guesser.</p>
+    </div>
+    <div class="solution-card">
+      <div class="icon-wrap">📦</div>
+      <h3>Predictive Inventory AI</h3>
+      <p>Local disease pattern analysis + seasonal demand modelling auto-triggers restocking before stockouts occur. Reduces dead stock by 25% within 6 weeks of activation.</p>
+    </div>
+    <div class="solution-card">
+      <div class="icon-wrap">🩺</div>
+      <h3>Tele-Consult Bridge</h3>
+      <p>60-second specialist connection from the pharmacy counter. Patients get prescriptions, chemists close sales, doctors reach tier-2/3 patients — everyone wins.</p>
+    </div>
+    <div class="solution-card">
+      <div class="icon-wrap">📊</div>
+      <h3>Outcome Accountability Layer</h3>
+      <p>Patient adherence tracking and clinical credit scoring turn anonymous transactions into longitudinal care records — making independent chemists measurably accountable.</p>
+    </div>
+    <div class="solution-card">
+      <div class="icon-wrap">🔒</div>
+      <h3>Federated Privacy Architecture</h3>
+      <p>All patient data stays on-device. SetuAI learns from patterns, not raw records. DPDP Act 2023 compliant, ABDM-integrated, CDSCO safety-certified framework.</p>
+    </div>
+    <div class="solution-card">
+      <div class="icon-wrap">🤝</div>
+      <h3>Pharmacist Equity Pool</h3>
+      <p>Network effects that benefit chemists, not just the platform. Participating pharmacies earn equity-like tokens from aggregate anonymised insights sold to pharma manufacturers.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-tag">How It Works</div>
+  <h2>From <span class="accent">Setup to Intelligence</span> in 48 Hours</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <h3>Onboard in Minutes</h3>
+        <p>Chemist downloads the SetuAI app, links their existing billing system via API or manual import, and completes a 20-minute guided setup. No hardware required.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>AI Learns Your Inventory Pattern</h3>
+        <p>Within 48 hours, the local SLM builds a demand-forecasting baseline from 90 days of transaction history, cross-referenced with city-level disease surveillance data.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>Clinical Guardrails Activate at Billing</h3>
+        <p>Every prescription scanned at billing is checked against drug interaction databases in real-time. Dangerous combinations trigger a mandatory review step — before the patient pays.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        <h3>Tele-Consult for Undiagnosed Patients</h3>
+        <p>For walk-ins without a prescription, the chemist triggers a tele-consult flow. Doctor connects within 60 seconds. Prescription issued digitally, dispensed immediately.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div>
+        <h3>Outcomes Tracked, Equity Accumulated</h3>
+        <p>Patient adherence data (anonymised) feeds the Pharmacist Equity Pool. Chemists with better outcome scores earn revenue share from aggregated insights sold to pharma partners.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MARKET -->
+<section id="market">
+  <div class="section-tag">Market Opportunity</div>
+  <h2>A <span class="accent">$30B+</span> Market Nobody Has Cracked</h2>
+  <p class="section-sub">India's pharmaceutical retail market is the world's 3rd largest and growing at 11% CAGR. The independent channel — 95% of the market by outlet count — is entirely undigitised.</p>
+  <div class="market-grid">
+    <div class="market-card">
+      <div class="num">$30B+</div>
+      <div class="unit">Total Market (TAM)</div>
+      <div class="desc">India pharmaceutical retail by 2027</div>
+    </div>
+    <div class="market-card">
+      <div class="num">9.5M</div>
+      <div class="unit">Independent Chemists (SAM)</div>
+      <div class="desc">Undigitised primary care access points across India</div>
+    </div>
+    <div class="market-card">
+      <div class="num">$2.4B</div>
+      <div class="unit">Serviceable Market (SOM)</div>
+      <div class="desc">Top 5 states, tier-1/2 cities, 800K+ chemists in first 3 years</div>
+    </div>
+    <div class="market-card">
+      <div class="num">11%</div>
+      <div class="unit">Market CAGR</div>
+      <div class="desc">Pharma retail growth outpacing broader healthcare sector</div>
+    </div>
+  </div>
+  <p style="color: var(--muted); font-size: 0.9rem;">
+    <strong style="color: var(--text);">Why now?</strong> The ABDM (Ayushman Bharat Digital Mission) mandates digital health records by 2026, creating a regulatory tailwind. DPDP Act 2023 creates a compliance moat for privacy-first solutions. GenAI cost curves make per-chemist SLM deployment economically viable for the first time.
+  </p>
+</section>
+
+<hr class="divider">
+
+<!-- BUSINESS MODEL -->
+<section id="model">
+  <div class="section-tag">Business Model</div>
+  <h2>Three Interlocking <span class="accent">Revenue Streams</span></h2>
+  <table class="biz-table">
+    <thead>
+      <tr>
+        <th>Revenue Stream</th>
+        <th>Mechanism</th>
+        <th>Target (Year 2)</th>
+        <th>Unit Economics</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SaaS Subscription</td>
+        <td>₹1,499/month per pharmacy — clinical decision support + predictive inventory + basic analytics</td>
+        <td>₹18Cr ARR (10K pharmacies)</td>
+        <td>LTV/CAC &gt; 8x; 85% gross margin</td>
+      </tr>
+      <tr>
+        <td>Tele-Consult Commission</td>
+        <td>15% platform fee on each completed teleconsult (avg. ₹300/consult). Volume scales with network.</td>
+        <td>₹4Cr (300K consults/year)</td>
+        <td>Zero marginal cost after infrastructure</td>
+      </tr>
+      <tr>
+        <td>Anonymised Insights API</td>
+        <td>Aggregated, privacy-safe demand signals sold to pharma manufacturers for hyper-local distribution planning</td>
+        <td>₹8Cr (pilot contracts)</td>
+        <td>95% margin; high switching cost</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="divider">
+
+<!-- TRACTION -->
+<section id="traction">
+  <div class="section-tag">Traction &amp; Roadmap</div>
+  <h2>Early Results. Clear <span class="accent">Path to Scale.</span></h2>
+  <div class="traction-grid">
+    <div>
+      <p class="section-sub" style="margin-bottom: 1.5rem;">Pilot: Bhopal &amp; Indore, 47 pharmacies, 6 months</p>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="traction-item">
+          <div class="traction-bullet"></div>
+          <div>
+            <h4>₹31,000 average margin recovery</h4>
+            <p>Per pharmacy in first 6 weeks via dead stock reduction and tele-consult commissions</p>
+          </div>
+        </div>
+        <div class="traction-item">
+          <div class="traction-bullet"></div>
+          <div>
+            <h4>2,847 drug interactions flagged</h4>
+            <p>Across 47 pharmacies over 6 months — 12 classified as potentially life-threatening</p>
+          </div>
+        </div>
+        <div class="traction-item">
+          <div class="traction-bullet"></div>
+          <div>
+            <h4>94% pharmacist retention</h4>
+            <p>After 90 days — well above SaaS benchmarks for SMB in India</p>
+          </div>
+        </div>
+        <div class="traction-item">
+          <div class="traction-bullet"></div>
+          <div>
+            <h4>2 pharma LOIs signed</h4>
+            <p>For anonymised insights API — validating the third revenue stream before product launch</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="section-sub" style="margin-bottom: 1.5rem;">Roadmap</p>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="traction-item">
+          <div class="traction-bullet" style="background: var(--gold);"></div>
+          <div>
+            <h4><span class="tag">Q2 2025</span> Seed Close + Maharashtra Expansion</h4>
+            <p>500 pharmacies, Hindi + Marathi SLM, ABDM integration v1</p>
+          </div>
+        </div>
+        <div class="traction-item">
+          <div class="traction-bullet" style="background: var(--gold);"></div>
+          <div>
+            <h4><span class="tag">Q4 2025</span> 5-State Rollout</h4>
+            <p>5,000 pharmacies across MP, Maharashtra, UP, Karnataka, Tamil Nadu</p>
+          </div>
+        </div>
+        <div class="traction-item">
+          <div class="traction-bullet" style="background: var(--gold);"></div>
+          <div>
+            <h4><span class="tag">Q2 2026</span> Series A + Insights API Launch</h4>
+            <p>50,000 pharmacies, 3 pharma API contracts, Clinical Credit Score v1</p>
+          </div>
+        </div>
+        <div class="traction-item">
+          <div class="traction-bullet" style="background: var(--gold);"></div>
+          <div>
+            <h4><span class="tag">2027</span> National Coverage</h4>
+            <p>500,000 pharmacies, international expansion (Bangladesh, Nigeria)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-tag">Team</div>
+  <h2>Built by People Who've <span class="accent">Stood in These Shops</span></h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">AA</div>
+      <h3>Ayush Agarwal</h3>
+      <div class="role">CEO &amp; Co-Founder</div>
+      <p>Former product lead at healthtech unicorn. Spent 18 months interviewing independent chemists across 6 states. MBA in Healthcare Innovation.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">SP</div>
+      <h3>Siddharth Patil</h3>
+      <div class="role">CTO &amp; Co-Founder</div>
+      <p>Ex-Google SWE, federated learning research at IISc Bangalore. Built India's first on-device NLP pipeline for Indic languages.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">DR</div>
+      <h3>Dr. Rekha Nair</h3>
+      <div class="role">Chief Medical Officer</div>
+      <p>Clinical pharmacologist, AIIMS Mumbai. 15 years designing drug safety systems. CDSCO advisory board member for digital health standards.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">VK</div>
+      <h3>Vishal Kumar</h3>
+      <div class="role">VP Growth</div>
+      <p>Scaled Practo's pharmacy network from 200 to 15,000 partners. Deep distribution relationships across tier-2/3 India. IIT Bombay alumnus.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ASK / CTA -->
+<section id="contact" style="max-width: 100%; padding: 5rem 2.5rem;">
+  <div class="cta-section">
+    <div class="section-tag" style="display: block; margin-bottom: 1rem;">The Ask</div>
+    <h2>Raising <span style="color: var(--gold);">$2M Seed</span> to Close the Intelligence Gap</h2>
+    <p>We have the pilot data, the regulatory clarity, and the team to become the operating system for India's neighbourhood pharmacy. We're looking for mission-aligned investors who understand the healthcare infrastructure opportunity.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; text-align: left;">
+      <div style="background: rgba(13,115,119,0.15); border-radius: 10px; padding: 1.25rem;">
+        <div style="color: var(--gold); font-size: 1.3rem; font-weight: 800;">$2M</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem;">Total raise (SAFE at $10M cap)</div>
+      </div>
+      <div style="background: rgba(13,115,119,0.15); border-radius: 10px; padding: 1.25rem;">
+        <div style="color: var(--gold); font-size: 1.3rem; font-weight: 800;">18 Months</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem;">Runway to Series A milestones</div>
+      </div>
+      <div style="background: rgba(13,115,119,0.15); border-radius: 10px; padding: 1.25rem;">
+        <div style="color: var(--gold); font-size: 1.3rem; font-weight: 800;">5,000</div>
+        <div style="color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem;">Pharmacies as target milestone</div>
+      </div>
+    </div>
+    <div class="cta-buttons">
+      <a href="mailto:ayushagsubs@gmail.com" class="btn-primary">Request Full Deck</a>
+      <a href="mailto:ayushagsubs@gmail.com" class="btn-outline">Schedule a Call</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 SetuAI Technologies Pvt. Ltd. · Mumbai, India · <a href="mailto:ayushagsubs@gmail.com" style="color: var(--teal-light);">ayushagsubs@gmail.com</a></p>
+  <p style="margin-top: 0.5rem;">Built for GenAI Assignment 1 — Progressive Prompting Study · Ayush Agarwal · ID: 62510583</p>
+</footer>
+
+</body>
+</html>
